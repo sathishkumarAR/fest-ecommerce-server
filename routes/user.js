@@ -17,13 +17,15 @@ router.put("/:id",verifyTokenAndAuthorization,async (req,res)=>{
             return res.status(500).json({error:"Unable to process the request. Try different password"})
         }
     }
-
+    
     try {
+        req.body.isAdmin=(req.body.userType==="Administrator")?true:false;    
+
         const updatedUser = await User.findByIdAndUpdate(req.params.id,{
             $set:req.body
         },
         {new:true}
-        ).select("-password");
+        ).select("-password -createdAt - updatedAt");
 
         if(!updatedUser)
             return res.status(500).json({error:"Invalid user to update"})
@@ -49,7 +51,7 @@ router.delete("/:id",verifyTokenAndAuthorization,async (req,res)=>{
 //GET USER
 router.get("/find/:id",verifyTokenAndAdmin,async (req,res)=>{
     try {
-        const user= await User.findById(req.params.id).select("-password");
+        const user= await User.findById(req.params.id).select("-password -createdAt -updatedAt");
         res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error:"Error occurred. Try again later"})
