@@ -20,13 +20,13 @@ router.put("/:id",verifyTokenAndAuthorization,async (req,res)=>{
     
     try {
         req.body.isAdmin=(req.body.userType==="Administrator")?true:false;    
-
+        
         const updatedUser = await User.findByIdAndUpdate(req.params.id,{
             $set:req.body
         },
         {new:true}
-        ).select("-password -createdAt - updatedAt");
-
+        ).select("-password -createdAt -updatedAt");
+        
         if(!updatedUser)
             return res.status(500).json({error:"Invalid user to update"})
 
