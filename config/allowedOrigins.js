@@ -1,5 +1,5 @@
 const allowedOrigins=[
-    "https://fest-server.onrender.com",
+    "https://fest-client.onrender.com",
     "http://localhost:3000"
 ]
 
