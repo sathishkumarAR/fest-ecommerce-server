@@ -1,19 +1,22 @@
 const express = require("express")
 const app = express();
+const cors= require("cors")
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 const userRoute= require("./routes/user")
 const authRoute = require("./routes/auth")
 const productRoute = require("./routes/product")
 const orderRoute = require("./routes/order")
+const corsOptions = require("./config/corsOptions")
+
 
 dotenv.config();
-
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("MongoDB connected successfully!"))
 .catch((err)=>console.log(err))
 
+app.use(cors(corsOptions))
 app.use(express.json({
     extended:true,
     limit:'10mb'

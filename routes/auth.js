@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken")
 //REGISTER
 router.post("/register", (req, res) => {
 
+
+
     bcrypt.hash(req.body.password, 12)
         .then(async (hashedPass) => {
 
@@ -36,14 +38,13 @@ router.post("/register", (req, res) => {
                 })
 
             } catch (error) {
+                
                 res.status(500).send("Error while registering the user. Try again after some time")
                 console.log(error)
             }
         })
         .catch(err => {
-
-            console.log(err);
-            res.send("Error occurred")
+            res.status(500).send("Error occurred")
             return;
 
         })
